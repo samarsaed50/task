@@ -1,0 +1,63 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+
+type Query {
+    buyers: [Buyer!]! @all
+    buyer(id: ID @eq): Buyer @find
+
+    products: [Product!]! @all
+    product(id: ID @eq): Product @find
+
+    orders: [Order!]! @all
+    order(id: ID @eq): Order @find
+    buyerorders: [Order!]! @field(resolver: "OrderQuery@buyerorders")  
+    
+
+}
+
+type Mutation {
+  createBuyer(name: String!,
+              email: String!,
+              password: String!  @bcrypt
+  ): Buyer! @create
+
+
+    createProduct(name: String!): Product! @create
+
+    createOrder(buyer_id: Int!, product_id: Int!): Order! @create 
+    
+    login(email: String!, password: String!): String  @field(resolver: "AuthMutator@login")
+
+}
+
+type Buyer {
+    id: ID!
+    name: String!
+    email: String!
+    password: String! 
+    auth_token: String!
+    remember_token: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Product {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Order {
+    id: ID!
+    buyer_id: Int!
+    product_id: Int!
+    buyer: Buyer @belongsTo
+    product: Product @belongsTo
+    created_at: DateTime!
+    updated_at: DateTime!
+}
