@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEmailAndPasswordToBuyers extends Migration
+class AddApiTokenToBuyers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,10 @@ class AddEmailAndPasswordToBuyers extends Migration
     public function up()
     {
         Schema::table('buyers', function (Blueprint $table) {
-            $table->string('email',100)->unique();
-            $table->string('password');
+            $table->string('api_token', 80)->after('password')
+            ->unique()
+            ->nullable()
+            ->default(null);
         });
     }
 
@@ -27,7 +29,7 @@ class AddEmailAndPasswordToBuyers extends Migration
     public function down()
     {
         Schema::table('buyers', function (Blueprint $table) {
-            $table->dropColumn(['email',  'password']);
+            //
         });
     }
 }

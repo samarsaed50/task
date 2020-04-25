@@ -3,12 +3,13 @@
 namespace App\GraphQL\Queries;
 use App\Models\Order;
 use Closure;
-
+use Auth;
 class OrderQuery
 {
    public function buyerorders()
    {
-       return auth()->user()->orders;
+       return Auth::guard('api')->user()->orders;
+
    }
 
    

@@ -6,16 +6,15 @@ use App\Models\Order;
 use App\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Passport\HasApiTokens;
+//use Laravel\Passport\HasApiTokens;
 
 class Buyer extends Authenticatable
 {
-    use HasApiTokens;
     
     protected $table="buyers";
 
    protected $fillable = [
-        'name','auth_token','remember_token','email','password'
+        'name','auth_token','remember_token','email','password','api_token',
     ];
 
 
